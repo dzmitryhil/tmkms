@@ -80,14 +80,6 @@ echo "Collecting gentxs in $GRAVITY_NODE_NAME"
 $GRAVITY $GRAVITY_HOME_FLAG collect-gentxs
 
 echo "Exposing ports and APIs of the $GRAVITY_NODE_NAME"
-# Switch sed command in the case of linux
-fsed() {
-  if [ `uname` = 'Linux' ]; then
-    sed -i "$@"
-  else
-    sed -i '' "$@"
-  fi
-}
 
 echo "Exposing ports and APIs of the $GRAVITY_NODE_NAME"
 # Switch sed command in the case of linux

@@ -1,13 +1,12 @@
 version: '3'
 
 services:
-  gravity:
+  gravity-root:
     image: onomy/tmkms:local
-    container_name: onomy-tmkms
-#    volumes:
-#      - ./gravity_home:/root/home/testchain/gravity
-#      - ./assets:/root/home/assets
-#      - ./scripts:/root/home/scripts
+    container_name: gravity-root
+    # run gravity without orchestrator
+    volumes:
+      - ./scripts/run-gravity.sh:/root/home/scripts/run.sh
     ports:
       # gravity
       - 26656:26656
@@ -15,3 +14,18 @@ services:
       - 1317:1317
       - 61278:61278
       - 9090:9090
+
+  gravity-tmkms:
+    image: onomy/tmkms:local
+    container_name: gravity-tmkms
+    volumes:
+#      - ./gravity_home:/root/home/testchain/gravity
+      - ./assets:/root/home/assets
+      - ./scripts/run-and-init-validator.sh:/root/home/scripts/run.sh
+#    ports:
+      # gravity
+#      - 26656:26656
+#      - 26657:26657
+#      - 1317:1317
+#      - 61278:61278
+#      - 9090:9090
