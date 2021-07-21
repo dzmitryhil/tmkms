@@ -1,0 +1,16 @@
+=============== Jul 21, 2021 (UTC) ===============
+12:31:41.590770 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+12:31:41.604104 db@open opening
+12:31:41.609082 version@stat F·[] S·0B[] Sc·[]
+12:31:41.612445 db@janitor F·2 G·0
+12:31:41.613172 db@open done T·8.4722ms
+=============== Jul 21, 2021 (UTC) ===============
+12:32:25.906962 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+12:32:25.912331 version@stat F·[] S·0B[] Sc·[]
+12:32:25.913127 db@open opening
+12:32:25.914087 journal@recovery F·1
+12:32:25.919256 journal@recovery recovering @1
+12:32:25.927587 memdb@flush created L0@2 N·42 S·7KiB "BH:..37d,v21":"blo..ore,v6"
+12:32:25.937969 version@stat F·[1] S·7KiB[7KiB] Sc·[0.25]
+12:32:25.956642 db@janitor F·3 G·0
+12:32:25.957463 db@open done T·43.6206ms

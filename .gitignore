@@ -1,5 +1,5 @@
 /target
-tmkms.toml
+deploy/cosmos-chain-integration/assets/tmkms.toml
 **/*.rs.bk
 **/*priv_validator_state.json
 

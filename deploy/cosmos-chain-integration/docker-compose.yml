@@ -19,9 +19,11 @@ services:
     image: onomy/tmkms:local
     container_name: gravity-tmkms
     volumes:
-#      - ./gravity_home:/root/home/testchain/gravity
       - ./assets:/root/home/assets
       - ./scripts/run-and-init-validator.sh:/root/home/scripts/run.sh
+
+      - ./gravity_home:/root/home/testchain/gravity-val1
+      - ./tmkms_home:/root/home/tmkms
 #    ports:
       # gravity
 #      - 26656:26656

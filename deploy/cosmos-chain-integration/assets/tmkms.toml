@@ -1,0 +1,28 @@
+# Tendermint KMS configuration file
+
+## Chain Configuration
+
+### Test net Network
+
+[[chain]]
+id = "testnet"
+key_format = { type = "bech32", account_key_prefix = "cosmospub", consensus_key_prefix = "cosmosvalconspub" }
+state_file = "/root/home/tmkms/state/consensus.json"
+
+## Signing Provider Configuration
+
+### Software-based Signer Configuration
+
+[[providers.softsign]]
+chain_ids = ["testnet"]
+key_type = "consensus"
+path = "/root/home/tmkms/secrets/consensus.key"
+
+## Validator Configuration
+
+[[validator]]
+chain_id = "testnet"
+addr = "tcp://0.0.0.0:26658"
+secret_key = "/root/home/tmkms/secrets/kms-identity.key"
+protocol_version = "v0.34"
+reconnect = true

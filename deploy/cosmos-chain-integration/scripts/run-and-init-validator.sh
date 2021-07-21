@@ -40,7 +40,7 @@ STAKE_DENOM="stake"
 NORMAL_DENOM="samoleans"
 
 TMKMS_BIN="tmkms"
-TMKMS_HOME="/root/home/assets/tmkms"
+TMKMS_HOME="/root/home/tmkms"
 TMKMS_CONFIG="$TMKMS_HOME/tmkms.toml"
 
 HARNESS_BIN="tm-signer-harness"
@@ -55,9 +55,6 @@ rm -rf $CURRENT_WORKING_DIR/$CHAINID/gravity
 
 echo "Creating $GRAVITY_NODE_NAME validator with chain-id=$CHAINID..."
 echo "Initializing genesis files"
-
-# Build genesis file incl account for passed address
-GRAVITY_GENESIS_COINS="100000000000$STAKE_DENOM,100000000000$NORMAL_DENOM"
 
 # Initialize the home directory and add some keys
 echo "Init test chain"
@@ -122,7 +119,7 @@ ORCH_ADDRESS=$($GRAVITY $GRAVITY_HOME_FLAG keys show -a $ORCH_NAME $GRAVITY_KEYR
 
 sleep 10
 
-$GRAVITY $GRAVITY_HOME_FLAG tx bank send $ORCH_ADDRESS $VALIDATOR_ADDRESS 20000000stake $GRAVITY_CHAINID_FLAG $GRAVITY_KEYRING_FLAG -y
+$GRAVITY $GRAVITY_HOME_FLAG tx bank send $ORCH_ADDRESS $VALIDATOR_ADDRESS 100000000stake $GRAVITY_CHAINID_FLAG $GRAVITY_KEYRING_FLAG -y
 $GRAVITY $GRAVITY_HOME_FLAG tx bank send $ORCH_ADDRESS $VALIDATOR_ADDRESS 10000000samoleans $GRAVITY_CHAINID_FLAG $GRAVITY_KEYRING_FLAG -y
 
 sleep 10
@@ -131,7 +128,7 @@ VALIDATOR_PUBKEY=$($GRAVITY $GRAVITY_HOME_FLAG tendermint show-validator)
 echo "VALIDATOR_PUBKEY:$VALIDATOR_PUBKEY"
 
 $GRAVITY $GRAVITY_HOME_FLAG tx staking create-validator \
- --amount=10000000stake \
+ --amount=100000000stake \
  --pubkey=$VALIDATOR_PUBKEY \
  --moniker=$GRAVITY_NODE_NAME \
  --chain-id=$CHAINID \
@@ -146,9 +143,6 @@ $GRAVITY $GRAVITY_HOME_FLAG tx staking create-validator \
  $GRAVITY_KEYRING_FLAG -y
 
 echo "new validator is created"
-
-sleep 10
-
 echo "stopping to restart in remove validator mode"
 pkill gravity
 
@@ -156,17 +150,25 @@ sleep 10
 
 # ------------------ Init tmkms ------------------
 
-# cosmosvalconspub1zcjduepqa5dlp4lhgt28enuz8309x5e3cj3xcugxhddxdqc0xnt20at7lhqqdqhjgs
-# Generate connection key
-#${TMKMS_BIN} softsign keygen "$TMKMS_HOME/kms-identity.key"
 # Generate consensus key
 #${TMKMS_BIN} softsign keygen -t consensus "$TMKMS_HOME/signing.key"
-# Import signing key
-${TMKMS_BIN} softsign import "$GRAVITY_HOME/config/priv_validator_key.json" "$TMKMS_HOME/signing.key"
+# Generate connection key
+#${TMKMS_BIN} softsign keygen "$TMKMS_HOME/secret.key"
 
+${TMKMS_BIN} init $TMKMS_HOME
+cp -rf "/root/home/assets/tmkms.toml" $TMKMS_CONFIG
+
+# Import signing key
+${TMKMS_BIN} softsign import "$GRAVITY_HOME/config/priv_validator_key.json" "$TMKMS_HOME/secrets/consensus.key"
+
+echo -e "private key: \n"
+cat $GRAVITY_HOME/config/priv_validator_key.json
+
+echo -e "consensus key from private key: \n"
+cat $TMKMS_HOME/secrets/consensus.key
 
 # run rm kms in background (it should be run before the gravity)
-echo "starting tmkms"
+echo -e "\n starting tmkms"
 ${TMKMS_BIN} start -c ${TMKMS_CONFIG} -v &
 
 # ------------------ Start gravity ------------------

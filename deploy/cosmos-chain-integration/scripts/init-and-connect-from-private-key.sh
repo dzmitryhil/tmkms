@@ -106,7 +106,7 @@ fsed 's#swagger = false#swagger = true#g' $GRAVITY_APP_CONFIG
 
 # cosmosvalconspub1zcjduepqa5dlp4lhgt28enuz8309x5e3cj3xcugxhddxdqc0xnt20at7lhqqdqhjgs
 # Generate connection key
-#${TMKMS_BIN} softsign keygen "$TMKMS_HOME/kms-identity.key"
+#${TMKMS_BIN} softsign keygen "$TMKMS_HOME/secret.key"
 # Generate consensus key
 #${TMKMS_BIN} softsign keygen -t consensus "$TMKMS_HOME/signing.key"
 # Import signing key

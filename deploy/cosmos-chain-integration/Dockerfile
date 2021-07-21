@@ -4,6 +4,7 @@ FROM onomy/tmkms-builder:local as builder
 ARG TMKMS_DIR=/home/developer/tmkms
 RUN git clone https://github.com/iqlusioninc/tmkms.git $TMKMS_DIR
 WORKDIR $TMKMS_DIR
+
 RUN cargo build --release --features=softsign
 
 FROM onomy/gravity-bridge-single-node-runner-rinkeby:local
